@@ -1,0 +1,52 @@
+﻿@model Ball
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details - @Model.Name</h1>
+<div class="backgroundWhiteBorder">
+    <div class="container">
+        <div class="row">
+            <div class="col-4 offset-3">
+                @Html.DisplayNameFor(m => m.Name)
+            </div>
+            <div class="col-5">
+                @Html.DisplayFor(m => Model.Name)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 offset-3">
+                @Html.DisplayNameFor(m => m.Manufacturer)
+            </div>
+            <div class="col-5">
+                @Html.DisplayFor(m => Model.Manufacturer)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 offset-3">
+                @Html.DisplayNameFor(m => m.Serial)
+            </div>
+            <div class="col-5">
+                @Html.DisplayFor(m => Model.Serial)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 offset-3">
+                @Html.DisplayNameFor(m => m.Description)
+            </div>
+            <div class="col-5">
+                @Html.DisplayFor(m => Model.Description)
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-6 offset-4">
+                <a class="btn btn-primary" asp-action="Index">Back To List</a>
+                <a class="btn btn-success" asp-action="Index" asp-area="User" asp-controller="Home">Return Home</a>
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id" onclick="return confirm('Are you sure you want to delete this ball?');">Delete Ball</a>
+            </div>
+        </div>
+    </div>
+</div>
+

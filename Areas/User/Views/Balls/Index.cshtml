@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Ball>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["Message"]</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+<div class="border backgroundWhite">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-info">Balls List</h2>
+        </div>
+        <div class="col-6 text-right">
+            <partial name="_CreateButtonPartial" />
+        </div>
+    </div>
+    <br />
+    @if (Model.Count() == 0)
+    {
+        <p>No Balls Added yet. Use the Create New button above to add a ball!</p>
+    }
+    else
+    {
+        <div>
+            <table class="table table-striped border">
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.Name)</th>
+                    <th>@Html.DisplayNameFor(m => m.Manufacturer)</th>
+                    <th>@Html.DisplayNameFor(m => m.Serial)</th>
+                    <th>@Html.DisplayNameFor(m => m.Description)</th>
+                    <th></th>
+                </tr>
+                @foreach (var ball in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => ball.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => ball.Manufacturer)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => ball.Serial)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => ball.Description)
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-4">
+                                    <a asp-route-id="@ball.Id" asp-action="Details" class="btn btn-info btn-sm"><i class="fas fa-info"></i></a>
+                                </div>
+                                <div class="col-4">
+                                    <a class="btn btn-danger btn-sm" asp-route-id="@ball.Id" asp-action="Delete" onclick="return confirm('Are you sure you want to delete this ball?');"><i class="far fa-trash-alt"></i></a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+
+</div>
+

@@ -1,0 +1,170 @@
+﻿@model GameDetailView
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@functions {
+    int CalculateFrameScore(int frameNumber, string gameString)
+    {
+        var FrameValue = 0;
+        if (frameNumber == 0) return 0;
+        if (frameNumber != 9)
+        { //handles frames other than 9, special parsing for 10th required
+            if (gameString[frameNumber * 2 - 2] == 'X')
+            { //this frame strike
+                if (gameString[frameNumber * 2] == 'X')
+                { //next frame strike
+                  //if second frame from now is a strike then frameValue = 30, else 20 + first ball of second frame from now
+                    FrameValue += (gameString[frameNumber * 2 + 2] == 'X') ? 30 : 20 + int.Parse(gameString[frameNumber * 2 + 2].ToString());
+                }
+                else if (gameString[frameNumber * 2 + 1] == '/')
+                { //next frame spare, this frame worth 20
+                    FrameValue += 20;
+                }
+                else
+                { //next frame open, this frame worth 10 + next frame first ball + next frame second ball
+                    FrameValue += 10 + int.Parse(gameString[frameNumber * 2].ToString()) + int.Parse(gameString[frameNumber * 2 + 1].ToString());
+                }
+            }
+            else if (gameString[frameNumber * 2 - 1] == '/')
+            { //this frame spare
+                FrameValue += (gameString[frameNumber * 2] == 'X') ? 20 : 10 + int.Parse(gameString[frameNumber * 2].ToString());
+            }
+            else
+            { //this frame open
+                FrameValue += int.Parse(gameString[frameNumber * 2 - 2].ToString()) + int.Parse(gameString[frameNumber * 2 - 1].ToString());
+            }
+        }
+        else
+        { //9th frame
+            if (gameString[frameNumber * 2 - 2] == 'X')
+            { //9th frame strike
+                if (gameString[frameNumber * 2] == 'X')
+                { //first ball of 10th strike
+                    FrameValue += (gameString[frameNumber * 2 + 1] == 'X') ? 30 : 20 + int.Parse(gameString[frameNumber * 2 - 1].ToString());
+                }
+                else if (gameString[frameNumber * 2 + 1] == '/')
+                { //second ball of 10th spare
+                    FrameValue += 20;
+                }
+                else
+                { //10th frame open
+                    FrameValue += 10 + int.Parse(gameString[frameNumber * 2].ToString()) + int.Parse(gameString[frameNumber * 2 + 1].ToString());
+                }
+            }
+            else if (gameString[frameNumber * 2 - 1] == '/')
+            { //9th frame spare
+              //FrameValue = 10 + value of the first ball in the tenth frame
+                FrameValue += (gameString[frameNumber * 2] == 'X') ? 20 : 10 + int.Parse(gameString[frameNumber * 2].ToString());
+            }
+            else
+            { //9th frame open
+                FrameValue += int.Parse(gameString[frameNumber * 2 - 2].ToString()) + int.Parse(gameString[frameNumber * 2 - 1].ToString());
+            }
+
+        }
+        return FrameValue + CalculateFrameScore(frameNumber - 1, gameString);
+    }
+}
+
+<h1>Details</h1>
+@if (Model.Game.Name != null)
+{
+    <p>@Html.DisplayFor(g => Model.Game.Name)</p>
+}
+<p>Bowled On Date: @Html.DisplayFor(g => Model.Game.Date)</p>
+<p>Game Score @Html.DisplayFor(g => Model.Game.Score)</p>
+<div id='scorecard'>
+    <table id='scorecardTable' class='scorecard' cellpadding='1' cellspacing='0'>
+        <tr>
+            <th colspan='6'>Frame 1</th>
+            <th colspan='6'>Frame 2</th>
+            <th colspan='6'>Frame 3</th>
+            <th colspan='6'>Frame 4</th>
+            <th colspan='6'>Frame 5</th>
+            <th colspan='6'>Frame 6</th>
+            <th colspan='6'>Frame 7</th>
+            <th colspan='6'>Frame 8</th>
+            <th colspan='6'>Frame 9</th>
+            <th colspan='9'>Frame 10</th>
+        </tr>
+        <tr id="pinsLine">
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[0])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[1])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[2])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[3])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[4])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[5])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[6])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[7])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[8])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[9])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[10])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[11])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[12])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[13])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[14])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[15])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[16])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[17])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[18])</td>
+            <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[19])</td>
+            @if (Model.Game.GameString.Length > 20)
+            {
+                <td colspan='3'>@Html.DisplayFor(m => Model.Game.GameString[20])</td>
+            }
+            else
+            {
+                <td colspan='3'></td>
+            }
+        </tr>
+        <tr>
+            @for (int i = 1; i < 10; i++)
+            {
+                <td colspan="6" id="marker@(i)">@CalculateFrameScore(i, Model.Game.GameString)</td>
+            }
+            <td colspan='9' id="marker10">@Html.DisplayFor(m => Model.Game.Score)</td>
+        </tr>
+        <tr>
+            @for (int i = 0; i < Model.Frames.Length; i++)
+            {
+                @if (i < 9)
+                {
+                    <td colspan="6" class="border-dark border-top">
+                        @Model.Frames[i].PinsLeft
+                        <div class="row">
+                            <div class="circle-solid"></div>
+                            <div class="circle-border"></div>
+                            <div class="circle-border"></div>
+                            <div class="circle-border"></div>
+                        </div>
+                    </td>
+
+                }
+                else
+                {
+                    <td colspan="9" class="border-dark border-top">@Model.Frames[i].PinsLeft</td>
+                }
+            }
+        </tr>
+        <tr>
+            @for (int i = 0; i < Model.Frames.Length; i++)
+            {
+                @if (i < 9)
+                {
+                    <td colspan="6" class="border-dark border-top">@ViewBag.BallNamesByFrame[i]</td>
+                }
+                else
+                {
+                    <td colspan="9" class="border-dark border-top">@ViewBag.BallNamesByFrame[i]</td>
+                }
+            }
+        </tr>
+    </table>
+</div>
+@if (Model.Game.Notes != null)
+{
+    <p>@Model.Game.Notes</p>
+}
+

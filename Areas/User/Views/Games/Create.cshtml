@@ -1,0 +1,325 @@
+﻿@model GameSubmitView
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h2>New Game</h2>
+<br />
+<div class="border backgroundWhite">
+    <div class="row">
+        <div class="col-12">
+            <div id='scorecard'>
+                <table id='scorecardTable' class='scorecard' cellpadding='1' cellspacing='0'>
+                    <tr>
+                        <th colspan='6'>Frame 1</th>
+                        <th colspan='6'>Frame 2</th>
+                        <th colspan='6'>Frame 3</th>
+                        <th colspan='6'>Frame 4</th>
+                        <th colspan='6'>Frame 5</th>
+                        <th colspan='6'>Frame 6</th>
+                        <th colspan='6'>Frame 7</th>
+                        <th colspan='6'>Frame 8</th>
+                        <th colspan='6'>Frame 9</th>
+                        <th colspan='9'>Frame 10</th>
+                    </tr>
+                    <tr id="pinsLine">
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                        <td colspan='3'></td>
+                    </tr>
+                    <tr>
+                        <td colspan='6' id="marker1"></td>
+                        <td colspan='6' id="marker2"></td>
+                        <td colspan='6' id="marker3"></td>
+                        <td colspan='6' id="marker4"></td>
+                        <td colspan='6' id="marker5"></td>
+                        <td colspan='6' id="marker6"></td>
+                        <td colspan='6' id="marker7"></td>
+                        <td colspan='6' id="marker8"></td>
+                        <td colspan='6' id="marker9"></td>
+                        <td colspan='9' id="marker10"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-5">
+            <div class="row">
+                <div class="col-2 offset-2">
+                    <button type="button" id="7" onclick="pinClicked(this.id)" class="btn btn-default btn-circle btn-lg border pin">
+                        <h6>7</h6>
+                    </button>
+                </div>
+                <div class="col-2">
+                    <button type="button" id="8" onclick="pinClicked(this.id)" class="btn btn-default btn-circle btn-lg border pin">
+                        <h6>8</h6>
+                    </button>
+                </div>
+                <div class="col-2">
+                    <button type="button" id="9" onclick="pinClicked(this.id)" class="btn btn-default btn-circle btn-lg border pin">
+                        <h6>9</h6>
+                    </button>
+                </div>
+                <div class="col-2">
+                    <button type="button" id="10" onclick="pinClicked(this.id)" class="btn btn-default btn-circle btn-lg border pin">
+                        <h6>10</h6>
+                    </button>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-2 offset-3">
+                    <button type="button" id="4" onclick="pinClicked(this.id)" class="btn btn-default btn-circle btn-lg border pin">
+                        <h6>4</h6>
+                    </button>
+                </div>
+                <div class="col-2">
+                    <button type="button" id="5" onclick="pinClicked(this.id)" class="btn btn-default btn-circle btn-lg border pin">
+                        <h6>5</h6>
+                    </button>
+                </div>
+                <div class="col-2">
+                    <button type="button" id="6" onclick="pinClicked(this.id)" class="btn btn-default btn-circle btn-lg border pin">
+                        <h6>6</h6>
+                    </button>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-2 offset-4">
+                    <button type="button" id="2" onclick="pinClicked(this.id)" class="btn btn-default btn-circle btn-lg border pin">
+                        <h6>2</h6>
+                    </button>
+                </div>
+                <div class="col-2">
+                    <button type="button" id="3" onclick="pinClicked(this.id)" class="btn btn-default btn-circle btn-lg border pin">
+                        <h6>3</h6>
+                    </button>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-2 offset-5">
+                    <button type="button" id="1" onclick="pinClicked(this.id)" class="btn btn-default btn-circle btn-lg border pin">
+                        <h6>1</h6>
+                    </button>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-5 offset-1">
+                    <button class="btn btn-dark btn-block" onclick="SelectAllClick()"><i class="fas fa-check"></i>&nbsp;Mark all pins standing</button>
+                </div>
+                <div class="col-4">
+                    <button class="btn btn-default btn-block border" onclick="DeselectAllClick()"><i class="fas fa-check"></i>&nbsp;Mark all pins fallen</button>
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-secondary btn-sm">Foul</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-4 text-right">
+                        <label for="ballDropDown">Select Ball Thrown:</label>
+                    </div>
+                    <div class="col-8">
+                        <select id="ballDropDown" class="form-control">
+                            @foreach (Ball ball in ViewBag.Balls)
+                            {
+                                @if (ball.Manufacturer == null)
+                                {
+                                    <option value="@(ball.Id)">@ball.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@(ball.Id)">@ball.Manufacturer - @ball.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="dropdown">
+                    <button class="btn btn-info dropdown-toggle btn-sm" style="margin-right: 40px;" type="button" id="helpDropDownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                    <div class="dropdown-menu" style="min-width: 500px !important;" aria-labelledby="dropdownMenuButton">
+                        <p>
+                            <div class="row">
+                                <div class="col-12">
+                                    Next Ball Button:
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-11 offset-1">
+                                    -For first ball: Select the pins left standing (pins colored dark represent pins standing)
+                                    and click this button to submit the score for the first ball<br />
+                                    -For second ball: Select pins missed on the spare attempt and click this button to move to the next frame<br />
+                                    -For a strike or spare simply click this button without selecting any pins to move to the next frame
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-12">
+                                    Delete Button:
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-11 offset-1">
+                                    -Deletes the last ball added, because we all make mistakes
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-12">
+                                    Quit Game Button:
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-11 offset-1">
+                                    -Quit adding a new game and go back to the games lists
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-12">
+                                    Submit Button:
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-11 offset-1">
+                                    -Once the game is over, click this button to save the game to your profile!
+                                </div>
+                            </div>
+                        </p>
+                    </div>
+                </div>
+                &nbsp;
+                <button class="btn btn-primary" onclick="nextBallClick()"><i class="fas fa-check"></i>&nbsp;Next Ball</button>
+                &nbsp;
+                <button class="btn btn-warning" onclick="deleteClick()"><i class="fas fa-arrow-left"></i>&nbsp;Delete</button>
+                &nbsp;
+                <a class="btn btn-danger" asp-action="Index"><i class="fas fa-times"></i>&nbsp;Quit Game</a>
+                &nbsp;
+                <form method="post" asp-action="Create">
+                    <input type="hidden" asp-for="pinsLeft" id="pinsLeftInput" />
+                    <input type="hidden" asp-for="gameString" id="gameStringInput" />
+                    <input type="hidden" asp-for="Score" id="scoreInput" />
+                    <input type="hidden" asp-for="GameNotes" id="notesInput" />
+                    <input type="hidden" asp-for="GameName" id="nameInput" />
+                    <input type="hidden" asp-for="BallIds" id="ballInput" />
+                    <input type="hidden" asp-for="Pattern" id="patternInput" />
+                    <input type="submit" id="gameSubButton" class="btn btn-success form-control" value="Submit" disabled />
+                </form>
+            </div>
+            <br />
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h6 class="panel-title text-center">
+                            <a class="text-secondary" data-toggle="collapse" href="#test">
+                                <h6 class="text-divider"><span>Advanced Options</span></h6>
+                            </a>
+                        </h6>
+                    </div>
+                    <div id="test" class="panel-collapse collapse">
+                        <div class="panel-body row">
+                            <div class="form-group col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="name" aria-describedby="nameHelp" style="margin-bottom: 0 !important;">Game Name</label>
+                                        <small id="nameHelp" class="form-text text-muted" style="margin-top: 0 !important;">Eg. @(DateTime.Now.DayOfWeek) League Game 1</small>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" id="name" class="form-control" />
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="pattern">Pattern</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" id="pattern" class="form-control" />
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="feet">Stood on Board</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" id="feet" class="form-control" min="-5" max="60" />
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="speed">Ball Speed</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" id="speed" class="form-control" />
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="arrows">Board crossed at arrows</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" id="arrows" class="form-control" min="0" max="40" />
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="breakpoint">Board crossed at breakpoint</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" id="breakpoint" class="form-control" min="0" max="40" />
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="notes">Notes</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <textarea id="notes" class="form-control" rows="5"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+</div>
+
+<script src="~/js/CreateGame.js"></script>

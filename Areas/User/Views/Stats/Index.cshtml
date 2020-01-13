@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Bowler Statistics</h1>
+@if (ViewBag.display)
+{
+    <div class="backgroundWhite border container">
+        <p>Optional: filter statistics</p>
+        <div class="row">
+            <div class="col-3">
+                <p>By Ball:</p>
+            </div>
+            <div class="col-3">
+                <p>By Dates:</p>
+            </div>
+            <div class="col-3">
+                <p>By Pattern:</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <select id="ballSelect" class="form-control">
+                    @foreach (Ball ball in ViewBag.balls)
+                    {
+                        <option value="@(ball.Id)">@ball.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-3">
+
+            </div>
+            <div class="col-3">
+                <select id="ballSelect" class="form-control">
+                    @foreach (Ball ball in ViewBag.balls)
+                    {
+                        <option value="@(ball.Id)">@ball.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <br />
+        <p>Displaying stats for: unfiltered</p>
+        <p>Average: @ViewBag.Average</p>
+        <p>Strike Percentage: @ViewBag.strikePercent%</p>
+        <p>Spare Percentage: @ViewBag.sparePercent%</p>
+        <p>Filled Frame Percentage: @ViewBag.filledPercent%</p>
+        <p>Most Frequently Left Single Pin: @ViewBag.mostFrequent</p>
+        <p>Most Frequent Spare Left: @ViewBag.mostFrequentSpare</p>
+    </div>
+}
+else
+{
+    <p>Your statistics will be displayed here once at least one game is added!</p>
+}
+
+
+

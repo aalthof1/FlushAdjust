@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h2 class="display-4">
+        Welcome to Flush Adjust
+    </h2>
+    <em class="text-primary">
+        a place for bowlers to maintain a record of their games and keep track
+        of their statistics over time!
+    </em>
+</div>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["Message"]</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+<br />
+<div class="container">
+    <div class="backgroundWhite border">
+        <div class="row">
+            <div class="col-2">
+                <h4 class="text-success">Getting Started:</h4>
+            </div>
+            <div class="col-10">
+                <p>
+                    To start using the application, first create an account using the register button found in the upper right of the
+                    page. After you create an account, use the bowling tab on the navigation bar to navigate to the balls page. Use this
+                    page to add any bowling balls you will be using. Once you add a ball it is saved to your account, and you can always
+                    come back later to add more balls or remove balls from the list.
+                    <strong class="text-danger">
+                        You must add at least one ball before adding a game, this is because statistics are tracked for each ball so there
+                        must be at least one ball to associate stats with.
+                    </strong>
+                    If you do not own your own bowling ball, thats okay! Simply add a temporary
+                    ball with a name like "house ball" and use that ball.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h4 class="text-info">Games:</h4>
+            </div>
+            <div class="col-10">
+                <p>
+                    Once you have added a ball, use the bowling tab and click on "Games". This page displays a list of your games once they are added.
+                    From here click create new to add a new game. Games are input frame by frame, by selecting the pins left standing on each ball. By
+                    inputting games this way provides substantially more information for calculating statistics. Use the "i" button on the create game
+                    page for more help in adding games.
+                </p>
+                <p>
+                    When there are games on the games list, two buttons will appear next to each game. The "i" button on this page will provide you with
+                    details on the corresponding game, including which pins were left, which ball was thrown in each frame. The trash can button is used
+                    to delete a game, corresponding to the game on which the button was clicked. When trying to delete a game, you will be asked if you are
+                    sure you wish to proceed.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
